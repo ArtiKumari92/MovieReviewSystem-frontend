@@ -5,20 +5,18 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+const Header = ({ auth, setAuth }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token); // Convert token to boolean
-  }, []);
+    setAuth(!!localStorage.getItem("token")); // keep auth state synced
+  }, [setAuth]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    setIsLoggedIn(false);
+    setAuth(false);
     navigate("/login");
   };
 
@@ -37,7 +35,7 @@ const Header = () => {
             <NavLink className="nav-link" to="/watchList">Watch List</NavLink>
           </Nav>
 
-          {isLoggedIn ? (
+          {auth ? (
             <Button variant="outline-danger" onClick={handleLogout}>
               Logout
             </Button>

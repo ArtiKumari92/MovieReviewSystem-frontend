@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { Form, Button, Container, Alert, Card, InputGroup } from 'react-bootstrap';
 import axios from 'axios';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
 const Login = ({ setAuth }) => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -19,6 +21,7 @@ const Login = ({ setAuth }) => {
       localStorage.setItem('token', response.data.token);
       setAuth(true);
       setMessage('Login successful!');
+      navigate('/'); // Redirect to home
     } catch (error) {
       console.error(error);
       setMessage('Invalid email or password');
