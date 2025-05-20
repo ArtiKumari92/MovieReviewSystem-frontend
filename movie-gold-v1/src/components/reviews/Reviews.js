@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import api from '../../api/axiosConfig';
-import { useParams } from 'react-router-dom';
-import { Container, Row, Col } from 'react-bootstrap';
+import { useParams, Link } from 'react-router-dom';
+import { Container, Row, Col, Alert } from 'react-bootstrap';
 import ReviewForm from '../reviewForm/ReviewForm';
 import React from 'react';
 
@@ -11,7 +11,7 @@ const Reviews = ({ getMovieData, movie, reviews, setReviews, auth }) => {
 
   useEffect(() => {
     getMovieData(movieId);
-  }, []);
+  }, [movieId]);
 
   const addReview = async (e) => {
     e.preventDefault();
@@ -41,12 +41,13 @@ const Reviews = ({ getMovieData, movie, reviews, setReviews, auth }) => {
       <Row>
         <Col><h3>Reviews</h3></Col>
       </Row>
+
       <Row className="mt-2">
         <Col>
           <img src={movie?.poster} alt="" />
         </Col>
         <Col>
-          {auth && (
+          {auth ? (
             <>
               <Row>
                 <Col>
@@ -55,7 +56,16 @@ const Reviews = ({ getMovieData, movie, reviews, setReviews, auth }) => {
               </Row>
               <Row><Col><hr /></Col></Row>
             </>
+          ) : (
+            <Row>
+              <Col>
+                <Alert variant="info">
+                  Please <Link to="/login">log in</Link> to write a review.
+                </Alert>
+              </Col>
+            </Row>
           )}
+
           {reviews?.map((r, index) => (
             <React.Fragment key={index}>
               <Row>
@@ -68,7 +78,6 @@ const Reviews = ({ getMovieData, movie, reviews, setReviews, auth }) => {
           ))}
         </Col>
       </Row>
-      <Row><Col><hr /></Col></Row>
     </Container>
   );
 };
