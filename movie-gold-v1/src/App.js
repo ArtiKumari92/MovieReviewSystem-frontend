@@ -2,6 +2,8 @@ import './App.css';
 import api from './api/axiosConfig';
 import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Layout from './components/Layout';
 import Home from './components/home/Home';
 import Header from './components/header/Header';
@@ -9,6 +11,7 @@ import Trailer from './components/trailer/Trailer';
 import Reviews from './components/reviews/Reviews';
 import Register from './components/register/Register';
 import Login from './components/login/Login';
+import WatchList from './components/watchlist/WatchList';
 import NotFound from './components/notFound/NotFound';
 
 function App() {
@@ -51,9 +54,11 @@ function App() {
           <Route path="/Reviews/:movieId" element={<Reviews getMovieData={getMovieData} movie={movie} reviews={reviews} setReviews={setReviews} auth={auth} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login setAuth={setAuth} />} /> {/* Pass setAuth */}
+          <Route path="/watchList" element={<WatchList />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
+      <ToastContainer position="bottom-right" autoClose={3000} />
     </div>
   );
 }
