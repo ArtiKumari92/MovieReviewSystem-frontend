@@ -13,12 +13,16 @@ const Reviews = ({ getMovieData, movie, reviews, setReviews, auth }) => {
 
   useEffect(() => {
     getMovieData(movieId);
-    checkIfInWatchlist();
-  }, [movieId]);
+    if (auth) {
+      checkIfInWatchlist();
+    }
+  }, [movieId, auth]);
 
   const checkIfInWatchlist = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
     try {
-      const token = localStorage.getItem('token');
       const response = await api.get('/api/v1/watchlist', {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -85,7 +89,7 @@ const Reviews = ({ getMovieData, movie, reviews, setReviews, auth }) => {
 
       <Row className="mt-2">
         <Col md={4}>
-          <img src={movie?.poster} alt={movie?.title} style={{ width: "100%" }} />
+          <img src={movie?.poster} alt={movie?.title} style={{ width: "100%", borderRadius: '10px' }} />
         </Col>
 
         <Col md={8}>
